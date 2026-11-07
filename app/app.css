@@ -163,12 +163,14 @@ button, input, select { font: inherit; color: inherit; }
   display: grid;
   grid-template-columns: 216px minmax(0, 1fr);
   min-height: 0;
+  min-width: 0;
 }
 
 .rail {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  min-width: 0;
   border-right: 1px solid var(--line);
   background: var(--surface);
 }
@@ -208,6 +210,7 @@ button, input, select { font: inherit; color: inherit; }
   gap: 7px;
   overflow-y: auto;
   min-height: 0;
+  min-width: 0;
   flex: 1;
 }
 
@@ -229,7 +232,19 @@ button, input, select { font: inherit; color: inherit; }
   border: 1px solid transparent;
   border-radius: 10px;
   cursor: pointer;
-  transition: background-color 0.15s, border-color 0.15s;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  transition: background-color 0.15s, border-color 0.15s, transform 0.2s var(--ease-out),
+    box-shadow 0.2s var(--ease-out);
+}
+
+.thumb.is-lifted {
+  z-index: 5;
+  transform: scale(1.04);
+  background: var(--surface);
+  border-color: var(--accent);
+  box-shadow: 0 12px 24px -12px rgba(15, 23, 42, 0.45);
 }
 
 .thumb:hover { background: var(--surface-2); }
@@ -724,7 +739,14 @@ button, input, select { font: inherit; color: inherit; }
 @media (max-width: 860px) {
   body.app { grid-template-rows: 52px minmax(0, 1fr) 32px; }
 
-  .workspace { grid-template-columns: 1fr; grid-template-rows: 148px minmax(0, 1fr); }
+  /* Two tidy rows of tools instead of a sideways scroller. */
+  .stage-bar { flex-wrap: wrap; row-gap: 2px; overflow: visible; padding: 6px 10px; }
+  .stage-tools { flex-wrap: wrap; }
+  .stage-divider,
+  .stage-spacer,
+  .stage-page { display: none; }
+
+  .workspace { grid-template-columns: minmax(0, 1fr); grid-template-rows: 148px minmax(0, 1fr); }
 
   .rail {
     border-right: 0;
@@ -758,6 +780,11 @@ button, input, select { font: inherit; color: inherit; }
   .btn--sm { padding: 0 10px; }
   .dialog-form { padding: 16px; }
   .field-row { grid-template-columns: 1fr; }
+
+  .statusbar { gap: 6px; font-size: 0.68rem; flex-wrap: nowrap; }
+  .status-local { white-space: nowrap; }
+  .status-msg { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .status-right { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
