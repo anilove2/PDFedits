@@ -1,5 +1,5 @@
 /* PDFEdits service worker — offline shell for a local-first app. */
-const CACHE = "pdfedits-v1";
+const CACHE = "pdfedits-v2";
 
 const SHELL = [
   "/",
