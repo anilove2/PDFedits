@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFEdits — PDF work that never leaves your device</title>
+<meta name="description" content="Merge, split, crop, arrange and rotate PDFs entirely in your browser. No uploads, no accounts, no server copy. Local processing, by design.">
+<link rel="canonical" href="https://pdfedits.in/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pdfedits.in/">
+<meta property="og:title" content="PDFEdits — PDF work that never leaves your device">
+<meta property="og:description" content="A full PDF toolkit that runs in the tab you already have open. Merge, split, crop, arrange, rotate — processed locally, never uploaded.">
+<meta property="og:site_name" content="PDFEdits">
+<meta property="og:image" content="https://pdfedits.in/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PDFEdits — PDF work that never leaves your device">
+<meta name="twitter:description" content="A full PDF toolkit that runs in the tab you already have open. Nothing is uploaded, ever.">
+<meta name="twitter:image" content="https://pdfedits.in/assets/og-image.png">
+<meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script src="assets/js/boot.js"></script>
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/css/styles.css" as="style">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "PDFEdits",
+  "url": "https://pdfedits.in/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any (web browser)",
+  "browserRequirements": "Requires JavaScript and WebAssembly",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" },
+  "description": "A local-first PDF toolkit: merge, split, arrange, rotate, crop and convert PDFs in the browser. Files are never uploaded."
+}
+</script>
+</head>
+<body>
+
+<!-- Icon sprite: geometric marks, 24px grid, 1.6 stroke -->
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-merge" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="11" height="14" rx="2"/><rect x="9.5" y="6.5" width="11" height="14" rx="2"/></symbol>
+  <symbol id="i-split" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M12 4v16" stroke-dasharray="2 3"/></symbol>
+  <symbol id="i-delete" viewBox="0 0 24 24"><path d="M6 3.5h6.5L17 8v12.5H6z"/><path d="M12.5 3.5V8H17"/><path d="M9.5 13.5l5 4M14.5 13.5l-5 4"/></symbol>
+  <symbol id="i-arrange" viewBox="0 0 24 24"><path d="M4 6h9M4 12h9M4 18h9"/><path d="M18 4.5v15M15.5 7l2.5-2.5L20.5 7M15.5 17l2.5 2.5 2.5-2.5"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 1 1-2.3-5.6"/><path d="M20 4v6h-6"/></symbol>
+  <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6 2.5v14a2 2 0 0 0 2 2h14"/><path d="M2.5 6h14a2 2 0 0 1 2 2v14"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></symbol>
+  <symbol id="i-blank" viewBox="0 0 24 24"><path d="M6 3.5h6.5L17 8v4"/><path d="M6 3.5v17h5"/><path d="M12.5 3.5V8H17"/><path d="M17 14v7M13.5 17.5h7"/></symbol>
+  <symbol id="i-numbers" viewBox="0 0 24 24"><path d="M9.5 3.5 7.5 20.5M16.5 3.5l-2 17M3.5 8.5h17M2.5 15.5h17"/></symbol>
+  <symbol id="i-watermark" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M5.5 18 18 6" stroke-dasharray="2 2.5"/><path d="M14.5 15.5h3"/></symbol>
+  <symbol id="i-annotate" viewBox="0 0 24 24"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19l-4 1Z"/><path d="M14.5 6.5l3 3"/></symbol>
+  <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3 15.5c3.5 0 4-8 6.5-8s1 8 3.5 8 3-6 5-6 1.5 3 3 3"/><path d="M4 20.5h16"/></symbol>
+  <symbol id="i-redact" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><rect x="6.5" y="12" width="11" height="3.2" rx="1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-headers" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 8.5h17"/><path d="M6.5 12.5h11M6.5 16h7"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M6.5 15.5l3.5-4 3 3.5L16 11l2.5 4"/><circle cx="8.5" cy="9" r="1.3"/></symbol>
+  <symbol id="i-image-to-pdf" viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="8" height="8" rx="1.5"/><path d="M4.5 12.5l1.8-2.2 1.6 1.8"/><path d="M12.5 10.5h3"/><path d="M15 8l2.5 2.5L15 13"/><path d="M20.5 5.5v13"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M4.5 6.5h15M4.5 10.5h11M4.5 14.5h15M4.5 18.5h8"/></symbol>
+  <symbol id="i-office" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M3.5 9h17M3.5 14.5h17M9.5 4v16M15.5 4v16"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M9 7.5 4.5 12 9 16.5M15 7.5 19.5 12 15 16.5"/></symbol>
+  <symbol id="i-extract" viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="10" height="9" rx="1.5"/><path d="M4.5 14l2-2.5 2 2.5 1-1.2 1.3 1.7"/><path d="M14.5 12h6M18 9.5 20.5 12 18 14.5"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/></symbol>
+  <symbol id="i-unlock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2"/><path d="M8 10V7.5a4 4 0 0 1 7.4-2"/><circle cx="12" cy="15" r="1.3"/></symbol>
+  <symbol id="i-metadata" viewBox="0 0 24 24"><path d="M3.5 12.5v-8a1 1 0 0 1 1-1h8l8 8-8 8-8-8Z"/><circle cx="8" cy="8" r="1.3"/><path d="M4.5 20.5 19.5 4.5"/></symbol>
+  <symbol id="i-flatten" viewBox="0 0 24 24"><path d="M12 3.5v9M8.5 9.5 12 13l3.5-3.5"/><path d="M4 16.5h16"/><path d="M4 20.5h16"/></symbol>
+  <symbol id="i-compress" viewBox="0 0 24 24"><path d="M9 3.5v5H4M15 3.5v5h5M9 20.5v-5H4M15 20.5v-5h5"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 16.5a8 8 0 1 1 16 0"/><path d="M12 16.5l4.5-5.5"/><circle cx="12" cy="16.5" r="1.3"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.8 6.2a4 4 0 0 0 4.9 4.9L11 19.8a2.5 2.5 0 0 1-3.5-3.5l7.3-10.1Z"/><path d="M15.5 5.5 18 8"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 19 5.5v6c0 4.3-3 7.7-7 9.5-4-1.8-7-5.2-7-9.5v-6L12 3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h6.5L17 8v12.5H6z"/><path d="M12.5 3.5V8H17"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 6 13h5l-1 8.5 8-11h-5l1-8Z"/></symbol>
+</svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div class="file-banner" id="file-banner" hidden>
+  <div class="container">
+    <p>
+      <strong>Opened from disk.</strong>
+      The landing page works here, but the editor needs a local server — double-click
+      <code>start.cmd</code>, or run <code>node scripts/serve.js</code> and open
+      <a href="http://127.0.0.1:4321/app/">127.0.0.1:4321/app/</a>.
+    </p>
+  </div>
+</div>
+
+<div class="scroll-progress" aria-hidden="true"><span data-progress></span></div>
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="#top" aria-label="PDFEdits, back to top">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="9" fill="currentColor" opacity=".08"/>
+        <path d="M11 8h7l4 4v12H11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M18 8v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="21.6" cy="21" r="2.1" fill="#2563EB"/>
+      </svg>
+      <span class="brand-name">PDFEdits</span>
+    </a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#toolkit">Toolkit</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <a class="btn btn--primary btn--sm header-cta" href="app/index.html">Open editor</a>
+      <button class="icon-btn menu-btn" type="button" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg class="icon icon--open" aria-hidden="true"><use href="#i-menu"/></svg>
+        <svg class="icon icon--close" aria-hidden="true"><use href="#i-close"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu" data-menu hidden>
+    <nav class="container" aria-label="Mobile">
+      <a href="#toolkit">Toolkit</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#how">How it works</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn--primary" href="#toolkit">Explore toolkit</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" id="top">
+    <div class="hero-bg" aria-hidden="true">
+      <span class="blob blob--1"></span>
+      <span class="blob blob--2"></span>
+      <span class="blob blob--3"></span>
+      <span class="grid-veil"></span>
+    </div>
+
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-reveal>
+          <span class="pulse-dot" aria-hidden="true"></span>
+          Local processing
+          <span class="eyebrow-sep" aria-hidden="true">·</span>
+          No uploads
+        </p>
+
+        <h1 data-reveal style="--i:1">
+          PDF work that <span class="hl">never<svg class="hl-underline" viewBox="0 0 140 12" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8.5C36 3.5 96 2.5 138 6.5"/></svg></span> leaves your&nbsp;device.
+        </h1>
+
+        <p class="lede" data-reveal style="--i:2">
+          Merge, split, crop, arrange and rotate in your browser. The file is opened in this tab,
+          processed in this tab, and saved from this tab. Nothing is uploaded — not even for a moment.
+        </p>
+
+        <div class="hero-cta" data-reveal style="--i:3">
+          <a class="btn btn--primary" href="app/index.html">
+            Open the editor
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+          <a class="btn btn--ghost" href="#privacy">How privacy works</a>
+        </div>
+
+        <ul class="trust-row" data-reveal style="--i:4">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>No account</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>No upload</li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>Works offline</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" data-parallax data-reveal style="--i:2">
+        <div class="mock" data-tilt>
+          <div class="mock-sheet mock-sheet--back" aria-hidden="true"></div>
+          <div class="mock-sheet mock-sheet--mid" aria-hidden="true"></div>
+
+          <div class="mock-window">
+            <div class="mock-toolbar">
+              <span class="mock-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="mock-url">
+                <svg class="icon icon--xs" aria-hidden="true"><use href="#i-lock"/></svg>
+                pdfedits.in/editor
+              </span>
+              <span class="mock-badge"><span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>On-device</span>
+            </div>
+
+            <div class="mock-body">
+              <div class="mock-side">
+                <span class="mock-label">Pages</span>
+                <div class="mock-thumbs" data-thumbs>
+                  <div class="mock-thumb" data-thumb><span>1</span></div>
+                  <div class="mock-thumb" data-thumb><span>2</span></div>
+                  <div class="mock-thumb" data-thumb><span>3</span></div>
+                  <div class="mock-thumb" data-thumb><span>4</span></div>
+                  <div class="mock-thumb" data-thumb><span>5</span></div>
+                </div>
+              </div>
+
+              <div class="mock-canvas">
+                <div class="mock-page">
+                  <span class="mock-scan" aria-hidden="true"></span>
+                  <span class="mock-page-title" aria-hidden="true"></span>
+                  <span class="mock-line mock-line--90" aria-hidden="true"></span>
+                  <span class="mock-line mock-line--74" aria-hidden="true"></span>
+                  <span class="mock-figure" aria-hidden="true"></span>
+                  <span class="mock-line mock-line--84" aria-hidden="true"></span>
+                  <span class="mock-line mock-line--62" aria-hidden="true"></span>
+                  <span class="mock-line mock-line--88" aria-hidden="true"></span>
+                </div>
+
+                <div class="mock-tools" aria-hidden="true">
+                  <span class="mock-tool"><svg class="icon icon--xs"><use href="#i-crop"/></svg></span>
+                  <span class="mock-tool"><svg class="icon icon--xs"><use href="#i-rotate"/></svg></span>
+                  <span class="mock-tool mock-tool--active"><svg class="icon icon--xs"><use href="#i-arrange"/></svg></span>
+                  <span class="mock-tool"><svg class="icon icon--xs"><use href="#i-delete"/></svg></span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mock-status">
+              <span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>
+              <svg class="icon icon--xs" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>Processing locally</span>
+              <span class="mock-bytes">0 KB sent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STATS ============ -->
+  <section class="stats" aria-label="PDFEdits in numbers">
+    <div class="container stats-grid">
+      <div class="stat" data-reveal>
+        <p class="stat-value"><span data-count="0">0</span><span class="stat-unit">bytes</span></p>
+        <p class="stat-label">Uploaded, ever</p>
+      </div>
+      <div class="stat" data-reveal style="--i:1">
+        <p class="stat-value"><span data-count="100">100</span><span class="stat-unit">%</span></p>
+        <p class="stat-label">Processed on your device</p>
+      </div>
+      <div class="stat" data-reveal style="--i:2">
+        <p class="stat-value"><span data-count="27">27</span></p>
+        <p class="stat-label">Tools on the roadmap</p>
+      </div>
+      <div class="stat" data-reveal style="--i:3">
+        <p class="stat-value"><span data-count="0">0</span></p>
+        <p class="stat-label">Accounts required</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRIVACY ============ -->
+  <section class="section privacy" id="privacy">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="kicker">Privacy by architecture</p>
+        <h2>Your file never leaves the tab.</h2>
+        <p class="section-lede">
+          Most “free” PDF tools upload your document, process it on a server, then keep a copy for a while.
+          PDFEdits has no such step: the file is read, edited and written back inside this browser.
+        </p>
+      </div>
+
+      <div class="route-grid">
+        <article class="route route--local" data-reveal>
+          <header class="route-head">
+            <span class="route-tag route-tag--local">PDFEdits</span>
+            <h3>Stays on your device</h3>
+          </header>
+
+          <div class="route-canvas">
+            <svg viewBox="0 0 460 200" role="img" aria-label="Diagram: the file moves from disk into the browser tab and back to disk, without leaving the device boundary.">
+              <rect class="boundary" x="10" y="10" width="440" height="150" rx="16"/>
+              <text class="boundary-label" x="26" y="34">Your device</text>
+              <g class="node">
+                <rect x="34" y="72" width="96" height="56" rx="10"/>
+                <text x="82" y="105">File</text>
+              </g>
+              <g class="node">
+                <rect x="182" y="72" width="96" height="56" rx="10"/>
+                <text x="230" y="105">This tab</text>
+              </g>
+              <g class="node">
+                <rect x="330" y="72" width="96" height="56" rx="10"/>
+                <text x="378" y="105">Saved</text>
+              </g>
+              <path class="wire wire--local" d="M130 100h52"/>
+              <path class="wire wire--local" d="M278 100h52"/>
+              <circle class="wire-dot" r="3.5" cx="130" cy="100"/>
+              <circle class="wire-dot" r="3.5" cx="278" cy="100"/>
+              <text class="canvas-note" x="230" y="184">0 bytes leave this boundary</text>
+            </svg>
+          </div>
+
+          <ul class="route-facts">
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>No upload step to skip</li>
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>No server copy to retain</li>
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>Works with the network off</li>
+          </ul>
+        </article>
+
+        <article class="route route--cloud" data-reveal style="--i:1">
+          <header class="route-head">
+            <span class="route-tag route-tag--cloud">Typical online tool</span>
+            <h3>Leaves, then comes back</h3>
+          </header>
+
+          <div class="route-canvas">
+            <svg viewBox="0 0 460 200" role="img" aria-label="Diagram: a cloud tool uploads the file to a server outside the device, processes it there, and keeps a copy before download.">
+              <rect class="boundary boundary--dashed" x="10" y="10" width="270" height="150" rx="16"/>
+              <text class="boundary-label" x="26" y="34">Your device</text>
+              <g class="node node--muted">
+                <rect x="34" y="72" width="96" height="56" rx="10"/>
+                <text x="82" y="105">File</text>
+              </g>
+              <g class="node node--muted">
+                <rect x="164" y="72" width="96" height="56" rx="10"/>
+                <text x="212" y="105">Browser</text>
+              </g>
+              <path class="wire wire--cloud" d="M130 100h34"/>
+              <path class="wire wire--cloud" d="M260 100h58"/>
+              <g class="node node--server">
+                <rect x="320" y="60" width="116" height="80" rx="10"/>
+                <text x="378" y="94">Their server</text>
+                <text class="node-sub" x="378" y="114">copy retained</text>
+              </g>
+              <circle class="wire-dot wire-dot--cloud" r="3.5" cx="110" cy="100"/>
+              <text class="canvas-note" x="230" y="188">Upload → process → download → retention</text>
+            </svg>
+          </div>
+
+          <ul class="route-facts route-facts--muted">
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-close"/></svg>Upload required before work starts</li>
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-close"/></svg>Copy stored for hours or longer</li>
+            <li><svg class="icon icon--xs" aria-hidden="true"><use href="#i-close"/></svg>Useless without a connection</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="principles">
+        <article class="principle" data-reveal>
+          <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <h3>No upload endpoint</h3>
+          <p>There is no server route that accepts a document. Not a disabled one — none exists.</p>
+        </article>
+        <article class="principle" data-reveal style="--i:1">
+          <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#i-bolt"/></svg></span>
+          <h3>No queue, no limits</h3>
+          <p>Work starts when you drop the file. Your CPU is the only thing between you and the result.</p>
+        </article>
+        <article class="principle" data-reveal style="--i:2">
+          <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span>
+          <h3>No accounts</h3>
+          <p>Nothing to sign up for, nothing to verify, no profile built around your documents.</p>
+        </article>
+        <article class="principle" data-reveal style="--i:3">
+          <span class="principle-icon"><svg class="icon" aria-hidden="true"><use href="#i-gauge"/></svg></span>
+          <h3>Offline after first load</h3>
+          <p>The app caches itself. Once loaded, edits never depend on our uptime.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TOOLKIT ============ -->
+  <section class="section toolkit" id="toolkit">
+    <div class="container">
+      <div class="section-head section-head--split" data-reveal>
+        <div>
+          <p class="kicker">The toolkit</p>
+          <h2>Everything a PDF needs, running locally.</h2>
+        </div>
+        <p class="section-lede section-lede--right">
+          Organise, edit, convert, secure, optimise. Every tool is designed to execute in your browser —
+          <strong class="lede-strong">9 are live today</strong>, the rest follow in the order below.
+          <a class="lede-link" href="app/index.html">Open the editor</a>.
+        </p>
+      </div>
+
+      <div class="tool-controls" data-reveal>
+        <div class="tabs" role="group" aria-label="Filter tools by category">
+          <button class="tab is-active" type="button" data-filter="all" aria-pressed="true">All <span class="tab-count">27</span></button>
+          <button class="tab" type="button" data-filter="organize" aria-pressed="false">Organise <span class="tab-count">8</span></button>
+          <button class="tab" type="button" data-filter="edit" aria-pressed="false">Edit <span class="tab-count">6</span></button>
+          <button class="tab" type="button" data-filter="convert" aria-pressed="false">Convert <span class="tab-count">6</span></button>
+          <button class="tab" type="button" data-filter="secure" aria-pressed="false">Secure <span class="tab-count">4</span></button>
+          <button class="tab" type="button" data-filter="optimize" aria-pressed="false">Optimise <span class="tab-count">3</span></button>
+        </div>
+        <p class="filter-status" data-filter-status aria-live="polite">Showing all 27 tools</p>
+      </div>
+
+      <div class="tool-grid" data-tool-grid>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:0">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-merge"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Merge</h3>
+          <p>Combine files in any order, without re-encoding pages.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:1">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-split"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Split</h3>
+          <p>Pull out page ranges, odd pages, or every page on its own.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:2">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-delete"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Delete pages</h3>
+          <p>Remove what you don't need, keep the page count honest.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:3">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-arrange"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Arrange</h3>
+          <p>Drag thumbnails into a new order, then commit it.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:4">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-rotate"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Rotate</h3>
+          <p>Fix orientation for a single page or the whole file.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:5">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-crop"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Crop</h3>
+          <p>Trim margins or set an exact page size, visually.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:6">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>N-up &amp; booklet</h3>
+          <p>Two-up, four-up and signature order for printing.</p>
+        </article>
+
+        <article class="tool" data-cat="organize" data-reveal style="--i:7">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-blank"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Insert pages</h3>
+          <p>Drop in blank separators, covers or an existing page.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:0">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-numbers"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Page numbers</h3>
+          <p>Stamp consistent numbering with the placement you choose.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:1">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-watermark"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Watermark</h3>
+          <p>Text or image overlays, with opacity and angle control.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:2">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-annotate"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Annotate</h3>
+          <p>Highlight, comment and draw without flattening the layer.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:3">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-sign"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Fill &amp; sign</h3>
+          <p>Complete form fields and add a signature drawn on-screen.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:4">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-redact"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Redact</h3>
+          <p>Remove content from the file itself — not a black rectangle.</p>
+        </article>
+
+        <article class="tool" data-cat="edit" data-reveal style="--i:5">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-headers"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Headers &amp; footers</h3>
+          <p>Running titles, dates and section markers on every page.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:0">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>PDF to images</h3>
+          <p>Export pages as PNG or JPG at the DPI you ask for.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:1">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-image-to-pdf"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>Images to PDF</h3>
+          <p>Build a document from photos and scans, one per page.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:2">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-text"/></svg></span>
+            <span class="chip chip--live">Live</span>
+          </div>
+          <h3>PDF to text</h3>
+          <p>Copyable text extraction, page by page, with layout hints.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:3">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-office"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>PDF to Office</h3>
+          <p>Editable Word and Excel output, generated locally.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:4">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-code"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>HTML to PDF</h3>
+          <p>Turn a web page or local HTML file into a clean PDF.</p>
+        </article>
+
+        <article class="tool" data-cat="convert" data-reveal style="--i:5">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-extract"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Extract images</h3>
+          <p>Pull embedded assets out of a file, originals preserved.</p>
+        </article>
+
+        <article class="tool" data-cat="secure" data-reveal style="--i:0">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Encrypt</h3>
+          <p>Add a password and permissions before the file leaves.</p>
+        </article>
+
+        <article class="tool" data-cat="secure" data-reveal style="--i:1">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-unlock"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Unlock</h3>
+          <p>Remove a password you already know, without a service.</p>
+        </article>
+
+        <article class="tool" data-cat="secure" data-reveal style="--i:2">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-metadata"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Metadata scrub</h3>
+          <p>Clear author, software, GPS and revision history.</p>
+        </article>
+
+        <article class="tool" data-cat="secure" data-reveal style="--i:3">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-flatten"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Flatten</h3>
+          <p>Bake annotations and form fields into the page.</p>
+        </article>
+
+        <article class="tool" data-cat="optimize" data-reveal style="--i:0">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-compress"/></svg></span>
+            <span class="chip chip--next">Next</span>
+          </div>
+          <h3>Compress</h3>
+          <p>Shrink the file with a quality target you can see.</p>
+        </article>
+
+        <article class="tool" data-cat="optimize" data-reveal style="--i:1">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-gauge"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Image optimiser</h3>
+          <p>Recompress embedded scans without touching the text.</p>
+        </article>
+
+        <article class="tool" data-cat="optimize" data-reveal style="--i:2">
+          <div class="tool-top">
+            <span class="tool-icon"><svg class="icon" aria-hidden="true"><use href="#i-wrench"/></svg></span>
+            <span class="chip chip--later">Planned</span>
+          </div>
+          <h3>Repair</h3>
+          <p>Rebuild broken cross-reference tables and recover pages.</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HOW ============ -->
+  <section class="section how" id="how">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="kicker">How it works</p>
+        <h2>Three steps, one device.</h2>
+      </div>
+
+      <ol class="steps">
+        <li class="step" data-reveal>
+          <span class="step-num">01</span>
+          <div>
+            <h3>Drop a file</h3>
+            <p>The browser reads it into this tab. No network request, no progress bar pretending to be one.</p>
+          </div>
+        </li>
+        <li class="step" data-reveal style="--i:1">
+          <span class="step-num">02</span>
+          <div>
+            <h3>Work on it</h3>
+            <p>Crop, merge, reorder, rotate, delete. Every change happens in memory, on your machine.</p>
+          </div>
+        </li>
+        <li class="step" data-reveal style="--i:2">
+          <span class="step-num">03</span>
+          <div>
+            <h3>Save it</h3>
+            <p>Download straight from the tab. The only copy that exists is the one you saved.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ COMPARISON ============ -->
+  <section class="section compare" id="compare">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="kicker">The difference</p>
+        <h2>What changes when nothing is uploaded.</h2>
+      </div>
+
+      <div class="table-wrap" data-reveal>
+        <table class="compare-table">
+          <caption class="visually-hidden">PDFEdits compared with typical online PDF tools</caption>
+          <thead>
+            <tr>
+              <th scope="col">Capability</th>
+              <th scope="col" class="col-ours">PDFEdits</th>
+              <th scope="col">Typical online tool</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Where the file is processed</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>In this tab</td>
+              <td>On their servers</td>
+            </tr>
+            <tr>
+              <th scope="row">Upload step</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>None</td>
+              <td>Required before work starts</td>
+            </tr>
+            <tr>
+              <th scope="row">Account</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>Not needed</td>
+              <td>Usually required</td>
+            </tr>
+            <tr>
+              <th scope="row">File retention</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>No server copy exists</td>
+              <td>Varies; often hours to days</td>
+            </tr>
+            <tr>
+              <th scope="row">Works offline</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>After first load</td>
+              <td>No</td>
+            </tr>
+            <tr>
+              <th scope="row">Waiting for a queue</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>Never</td>
+              <td>On busy plans, often</td>
+            </tr>
+            <tr>
+              <th scope="row">Why the tool is free</th>
+              <td class="col-ours"><svg class="icon icon--xs" aria-hidden="true"><use href="#i-check"/></svg>No server cost to recover</td>
+              <td>Ads, credits or subscriptions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="section faq" id="faq">
+    <div class="container faq-grid">
+      <div class="section-head section-head--tight" data-reveal>
+        <p class="kicker">Questions</p>
+        <h2>Fair questions.</h2>
+        <p class="section-lede">If something is missing here, it's a gap worth fixing.</p>
+      </div>
+
+      <div class="faq-list" data-reveal>
+        <details class="faq-item">
+          <summary>Are my files really never uploaded?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>Correct. PDFEdits has no upload path: the browser opens the file, the tab processes it, and the result is written back to your disk. There is no server endpoint that accepts a document, so there is nothing to intercept, retain or breach.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Do I need an account?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>No. There is no sign-up, no email gate and no verification step. The toolkit is ready as soon as the page loads.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work offline?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>After the first visit, yes. The app caches itself, so later edits keep working with no connection — and never depend on our uptime.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>Is there a file size limit?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>Only what your device can hold. Very large scans take longer because the work happens on your CPU rather than a server farm — that trade is the point.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>What about scanned PDFs and OCR?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>Text-based PDFs work today. OCR is on the roadmap and will also run locally; it is the slowest thing to do well in a browser, so it ships after the organiser tools.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary>When does it launch?<span class="faq-marker" aria-hidden="true"></span></summary>
+          <div class="faq-answer"><p>Merge, split, delete, arrange, rotate and crop come first. Everything marked <em>In build</em> is next in the queue; the rest follows in the order shown.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA ============ -->
+  <section class="cta">
+    <div class="container cta-inner" data-reveal>
+      <p class="kicker">PDFEdits</p>
+      <h2>Keep your documents yours.</h2>
+      <p class="cta-lede">A full PDF toolkit that runs in the tab you already have open.</p>
+      <div class="cta-actions">
+        <a class="btn btn--primary btn--lg" href="app/index.html">Open the editor</a>
+        <a class="btn btn--ghost btn--lg" href="#privacy">Read the privacy model</a>
+      </div>
+      <p class="cta-note">No account. No upload. No catch.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href="#top" aria-label="PDFEdits, back to top">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="currentColor" opacity=".08"/>
+          <path d="M11 8h7l4 4v12H11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <path d="M18 8v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+          <circle cx="21.6" cy="21" r="2.1" fill="#2563EB"/>
+        </svg>
+        <span class="brand-name">PDFEdits</span>
+      </a>
+      <p>PDF work that never leaves your device.</p>
+    </div>
+
+    <nav class="footer-col" aria-label="Toolkit">
+      <h3>Toolkit</h3>
+      <a href="#toolkit">Organise</a>
+      <a href="#toolkit">Edit</a>
+      <a href="#toolkit">Convert</a>
+      <a href="#toolkit">Secure</a>
+    </nav>
+
+    <nav class="footer-col" aria-label="Product">
+      <h3>Product</h3>
+      <a href="#privacy">Privacy model</a>
+      <a href="#how">How it works</a>
+      <a href="#compare">Comparison</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="footer-col">
+      <h3>Status</h3>
+      <p class="footer-status"><span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>Live · Phase 1</p>
+      <p class="footer-note">Nine tools are live today. The remaining eighteen ship in the order shown above — and never at the cost of leaving the browser.</p>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>© <span data-year>2026</span> PDFEdits</p>
+    <p>Built for people who'd rather not upload.</p>
+  </div>
+</footer>
+
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
