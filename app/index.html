@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PDFEdits — Editor</title>
+<meta name="description" content="Merge, split, arrange, rotate and crop PDFs locally. Nothing is uploaded.">
+<link rel="canonical" href="https://pdfedits.in/app/">
+<meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<script src="boot.js"></script>
+<link rel="preload" href="../assets/fonts/plus-jakarta-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/css/fonts.css">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body class="app">
+
+<div class="file-notice" id="file-notice" hidden>
+  <div class="file-notice-card">
+    <span class="file-notice-icon">
+      <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+    </span>
+    <h1>The editor needs a local server</h1>
+    <p>
+      Browsers refuse to load ES modules from <code>file://</code>, so the page opened from disk
+      cannot start. Nothing is uploaded either way — the server is just how the browser is allowed
+      to read the app's own files.
+    </p>
+    <p class="file-notice-option"><strong>Easiest:</strong> double-click <code>start.cmd</code> in the project folder.</p>
+    <p class="file-notice-option"><strong>Or run:</strong> <code>node scripts/serve.js</code> and open
+      <a href="http://127.0.0.1:4321/app/">http://127.0.0.1:4321/app/</a>
+    </p>
+    <p class="file-notice-foot">The landing page still works from disk; only the editor needs http.</p>
+  </div>
+</div>
+
+<svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10" rx="2.2"/><path d="M8 10V7.5a4 4 0 0 1 8 0V10"/><circle cx="12" cy="15" r="1.3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 19 5.5v6c0 4.3-3 7.7-7 9.5-4-1.8-7-5.2-7-9.5v-6L12 3Z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 1 1-2.3-5.6"/><path d="M20 4v6h-6"/></symbol>
+  <symbol id="i-rotate-left" viewBox="0 0 24 24"><path d="M4 11.5a8 8 0 1 0 2.3-5.6"/><path d="M4 4v6h6"/></symbol>
+  <symbol id="i-crop" viewBox="0 0 24 24"><path d="M6 2.5v14a2 2 0 0 0 2 2h14"/><path d="M2.5 6h14a2 2 0 0 1 2 2v14"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.5h5V7M6.5 7l1 13.5h9L17.5 7"/><path d="M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-split" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="16" rx="2"/><path d="M12 4v16" stroke-dasharray="2 3"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M6.5 15.5l3.5-4 3 3.5L16 11l2.5 4"/><circle cx="8.5" cy="9" r="1.3"/></symbol>
+  <symbol id="i-image-add" viewBox="0 0 24 24"><path d="M20.5 13.5V19a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h8.5"/><path d="M4.5 16.5l4-4.5 3.5 4 2-2.2 2 2.2"/><path d="M17.5 2.5v7M14 6h7"/></symbol>
+  <symbol id="i-text" viewBox="0 0 24 24"><path d="M5 6h14M5 10h9M5 14h14M5 18h7"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="7" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="7" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="9" cy="17" r="1.3" fill="currentColor" stroke="none"/><circle cx="15" cy="17" r="1.3" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M4 9h9a5 5 0 0 1 0 10h-3"/><path d="M7.5 5.5 4 9l3.5 3.5"/></symbol>
+</svg>
+
+<header class="topbar">
+  <a class="brand" href="../index.html" aria-label="PDFEdits home">
+    <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="9" fill="currentColor" opacity=".08"/>
+      <path d="M11 8h7l4 4v12H11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M18 8v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="21.6" cy="21" r="2.1" fill="#2563EB"/>
+    </svg>
+    <span class="brand-name">PDFEdits</span>
+  </a>
+
+  <div class="doc-meta">
+    <span class="doc-name" data-doc-name>No document</span>
+    <span class="doc-sub" data-doc-sub>Drop a PDF to begin</span>
+  </div>
+
+  <div class="topbar-actions">
+    <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"/></svg>
+      <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"/></svg>
+    </button>
+    <button class="btn btn--ghost btn--sm" type="button" data-add>
+      <svg class="icon icon--xs" aria-hidden="true"><use href="#i-plus"/></svg>
+      Add PDFs
+    </button>
+    <button class="btn btn--primary btn--sm" type="button" data-download disabled>Download PDF</button>
+  </div>
+</header>
+
+<main class="workspace">
+  <aside class="rail" aria-label="Page list">
+    <div class="rail-head">
+      <h2>Pages</h2>
+      <span class="rail-count" data-page-count>0</span>
+    </div>
+    <ol class="thumbs" data-thumbs></ol>
+    <p class="rail-empty" data-rail-empty>Pages appear here once a PDF is open.</p>
+    <div class="rail-foot">
+      <button class="rail-add" type="button" data-add>
+        <svg class="icon icon--xs" aria-hidden="true"><use href="#i-plus"/></svg>
+        Add more pages
+      </button>
+    </div>
+  </aside>
+
+  <section class="stage" aria-label="Document preview">
+    <div class="stage-bar">
+      <div class="stage-tools" role="toolbar" aria-label="Page tools">
+        <button class="tool" type="button" data-action="rotate-right" disabled title="Rotate right (R) — hold Shift to rotate left">
+          <svg class="icon" aria-hidden="true"><use href="#i-rotate"/></svg>
+          <span>Rotate</span>
+        </button>
+        <button class="tool" type="button" data-action="crop" disabled title="Crop page">
+          <svg class="icon" aria-hidden="true"><use href="#i-crop"/></svg>
+          <span>Crop</span>
+        </button>
+        <button class="tool tool--danger" type="button" data-action="delete" disabled title="Delete page (Delete)">
+          <svg class="icon" aria-hidden="true"><use href="#i-trash"/></svg>
+          <span>Delete</span>
+        </button>
+        <button class="tool" type="button" data-action="move-left" disabled title="Move page earlier (Alt+↑)">
+          <svg class="icon icon--flip" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <span class="visually-hidden">Move page earlier</span>
+        </button>
+        <button class="tool" type="button" data-action="move-right" disabled title="Move page later (Alt+↓)">
+          <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+          <span class="visually-hidden">Move page later</span>
+        </button>
+      </div>
+
+      <div class="stage-divider" aria-hidden="true"></div>
+
+      <div class="stage-tools">
+        <button class="tool" type="button" data-action="split" disabled>
+          <svg class="icon" aria-hidden="true"><use href="#i-split"/></svg>
+          <span>Split</span>
+        </button>
+        <button class="tool" type="button" data-action="export-images" disabled title="Export pages as PNG or JPG">
+          <svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>
+          <span>To images</span>
+        </button>
+        <button class="tool" type="button" data-action="export-text" disabled title="Extract the text layer">
+          <svg class="icon" aria-hidden="true"><use href="#i-text"/></svg>
+          <span>To text</span>
+        </button>
+        <button class="tool" type="button" data-action="add-images" title="Turn images into pages">
+          <svg class="icon" aria-hidden="true"><use href="#i-image-add"/></svg>
+          <span>Images → PDF</span>
+        </button>
+      </div>
+
+      <span class="stage-spacer"></span>
+      <span class="stage-page" data-stage-page>—</span>
+    </div>
+
+    <div class="stage-body" data-stage-body>
+      <div class="page-canvas-wrap" data-canvas-wrap hidden>
+        <canvas data-canvas aria-label="Selected page preview"></canvas>
+      </div>
+
+      <div class="dropzone" data-dropzone>
+        <div class="dropzone-inner">
+          <span class="dropzone-icon">
+            <svg class="icon" aria-hidden="true"><use href="#i-lock"/></svg>
+          </span>
+          <h1>Drop a PDF here</h1>
+          <p>It opens in this tab and never leaves it. Add more files to merge, or start arranging.</p>
+          <div class="dropzone-actions">
+            <button class="btn btn--primary" type="button" data-add>Choose PDFs</button>
+            <button class="btn btn--ghost" type="button" data-add-images>Convert images</button>
+          </div>
+          <p class="dropzone-note">
+            <svg class="icon icon--xs" aria-hidden="true"><use href="#i-shield"/></svg>
+            No upload · No account · Works offline after first load
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="statusbar">
+  <span class="pulse-dot pulse-dot--sm" aria-hidden="true"></span>
+  <span class="status-local">Processing locally</span>
+  <span class="status-sep" aria-hidden="true">·</span>
+  <span class="status-msg" data-status aria-live="polite">Ready</span>
+  <span class="status-right" data-size>—</span>
+</footer>
+
+<div class="toast-stack" data-toasts aria-live="polite" aria-atomic="false"></div>
+
+<div class="busy" data-busy hidden>
+  <div class="busy-card">
+    <span class="spinner" aria-hidden="true"></span>
+    <span data-busy-text>Working…</span>
+  </div>
+</div>
+
+<input type="file" accept="application/pdf,.pdf" multiple hidden data-file-input>
+<input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden data-image-input>
+
+<!-- Split -->
+<dialog class="dialog" data-dialog="split" aria-labelledby="split-title">
+  <form method="dialog" class="dialog-form" data-split-form>
+    <h2 id="split-title">Split document</h2>
+    <p class="dialog-lede">Everything is assembled in this tab — the ZIP is built in memory.</p>
+
+    <fieldset class="fieldset">
+      <legend class="visually-hidden">Split mode</legend>
+      <label class="radio">
+        <input type="radio" name="split-mode" value="page" checked>
+        <span><strong>Every page</strong> — one PDF per page, delivered as a ZIP</span>
+      </label>
+      <label class="radio">
+        <input type="radio" name="split-mode" value="range">
+        <span><strong>Page ranges</strong> — e.g. <code>1-3, 5, 8-10</code></span>
+      </label>
+    </fieldset>
+
+    <label class="field" data-range-field hidden>
+      <span>Ranges</span>
+      <input type="text" name="ranges" placeholder="1-3, 5, 8-10" value="1-3" autocomplete="off">
+      <small>Each comma-separated range becomes its own PDF in the ZIP.</small>
+    </label>
+
+    <div class="dialog-actions">
+      <button class="btn btn--ghost" type="button" data-close>Cancel</button>
+      <button class="btn btn--primary" type="submit">Split &amp; download</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Crop -->
+<dialog class="dialog dialog--wide" data-dialog="crop" aria-labelledby="crop-title">
+  <form method="dialog" class="dialog-form" data-crop-form>
+    <h2 id="crop-title">Crop page</h2>
+    <p class="dialog-lede">Trim margins as a share of the page. The page is shown straight-on, whatever its rotation.</p>
+
+    <div class="crop-layout">
+      <div class="crop-preview">
+        <div class="crop-frame" data-crop-frame>
+          <canvas data-crop-canvas aria-label="Crop preview"></canvas>
+          <span class="crop-shade crop-shade--top" data-shade="top"></span>
+          <span class="crop-shade crop-shade--right" data-shade="right"></span>
+          <span class="crop-shade crop-shade--bottom" data-shade="bottom"></span>
+          <span class="crop-shade crop-shade--left" data-shade="left"></span>
+        </div>
+      </div>
+
+      <div class="crop-controls">
+        <label class="field">
+          <span>Top <output data-out="top">0%</output></span>
+          <input type="range" name="top" min="0" max="45" value="0" step="1">
+        </label>
+        <label class="field">
+          <span>Right <output data-out="right">0%</output></span>
+          <input type="range" name="right" min="0" max="45" value="0" step="1">
+        </label>
+        <label class="field">
+          <span>Bottom <output data-out="bottom">0%</output></span>
+          <input type="range" name="bottom" min="0" max="45" value="0" step="1">
+        </label>
+        <label class="field">
+          <span>Left <output data-out="left">0%</output></span>
+          <input type="range" name="left" min="0" max="45" value="0" step="1">
+        </label>
+        <p class="crop-hint">Crop sets the visible page box. Hidden content stays in the file.</p>
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button class="btn btn--ghost" type="button" data-crop-reset>Reset</button>
+      <span class="dialog-spacer"></span>
+      <button class="btn btn--ghost" type="button" data-close>Cancel</button>
+      <button class="btn btn--primary" type="submit">Apply crop</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Export images -->
+<dialog class="dialog" data-dialog="images" aria-labelledby="images-title">
+  <form method="dialog" class="dialog-form" data-images-form>
+    <h2 id="images-title">Export pages as images</h2>
+    <p class="dialog-lede">Pages are rendered locally and zipped in memory.</p>
+
+    <div class="field-row">
+      <label class="field">
+        <span>Format</span>
+        <select name="format">
+          <option value="image/png">PNG (lossless)</option>
+          <option value="image/jpeg">JPG (smaller)</option>
+        </select>
+      </label>
+      <label class="field">
+        <span>Resolution</span>
+        <select name="dpi">
+          <option value="96">96 DPI</option>
+          <option value="150" selected>150 DPI</option>
+          <option value="200">200 DPI</option>
+          <option value="300">300 DPI</option>
+        </select>
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Pages</span>
+      <select name="scope">
+        <option value="all">All pages</option>
+        <option value="current">Selected page only</option>
+      </select>
+    </label>
+
+    <div class="dialog-actions">
+      <button class="btn btn--ghost" type="button" data-close>Cancel</button>
+      <button class="btn btn--primary" type="submit">Render &amp; download ZIP</button>
+    </div>
+  </form>
+</dialog>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
