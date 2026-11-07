@@ -1,0 +1,77 @@
+/* =========================================================================
+   PDFEdits — shared design tokens (landing page + app)
+   Source of truth: design-system/pdfedits/MASTER.md
+   ========================================================================= */
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --ink: #0f172a;
+  --ink-2: #1e293b;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.09);
+  --on-accent: #ffffff;
+
+  --live: #059669;
+  --live-soft: rgba(5, 150, 105, 0.12);
+  --warn: #b45309;
+  --warn-soft: rgba(180, 83, 9, 0.12);
+  --danger: #dc2626;
+  --danger-soft: rgba(220, 38, 38, 0.1);
+
+  --ring: #1e293b;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 10px 24px -16px rgba(15, 23, 42, 0.35);
+  --shadow-lg: 0 30px 60px -32px rgba(15, 23, 42, 0.45), 0 2px 6px rgba(15, 23, 42, 0.05);
+
+  --gutter: clamp(20px, 5vw, 48px);
+  --max: 1160px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --fs-body: 1.0625rem;
+
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --bg: #0b1220;
+  --surface: #111a2b;
+  --surface-2: #162034;
+  --ink: #e9eff9;
+  --ink-2: #d3dfee;
+  --muted: #94a6bf;
+  --line: #22314a;
+  --line-strong: #2e4059;
+
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: rgba(96, 165, 250, 0.13);
+  --on-accent: #081120;
+
+  --live: #34d399;
+  --live-soft: rgba(52, 211, 153, 0.14);
+  --warn: #fbbf24;
+  --warn-soft: rgba(251, 191, 36, 0.14);
+  --danger: #f87171;
+  --danger-soft: rgba(248, 113, 113, 0.12);
+
+  --ring: #93c5fd;
+  --shadow-md: 0 12px 28px -18px rgba(0, 0, 0, 0.8);
+  --shadow-lg: 0 34px 70px -34px rgba(0, 0, 0, 0.85), 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  color-scheme: dark;
+}

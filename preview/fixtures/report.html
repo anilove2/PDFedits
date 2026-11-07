@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Quarterly report — fixture</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: #101828; }
+  .page {
+    width: 210mm; height: 297mm; padding: 22mm 20mm; page-break-after: always;
+    display: flex; flex-direction: column; position: relative;
+  }
+  .page:last-child { page-break-after: auto; }
+  .eyebrow { font-size: 10pt; letter-spacing: 2px; text-transform: uppercase; color: #2563eb; font-weight: 700; }
+  h1 { font-size: 30pt; line-height: 1.1; margin: 6mm 0 4mm; letter-spacing: -1px; }
+  h2 { font-size: 15pt; margin: 8mm 0 3mm; }
+  p { font-size: 11pt; line-height: 1.55; margin: 0 0 3mm; color: #344054; }
+  .rule { height: 2px; background: #101828; margin: 6mm 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 10.5pt; margin-top: 4mm; }
+  th, td { text-align: left; padding: 3mm 2mm; border-bottom: 1px solid #e4e7ec; }
+  th { font-size: 9pt; text-transform: uppercase; letter-spacing: 1px; color: #667085; }
+  .metric { display: flex; gap: 10mm; margin: 6mm 0; }
+  .metric div { flex: 1; border: 1px solid #e4e7ec; border-radius: 4mm; padding: 5mm; }
+  .metric b { display: block; font-size: 22pt; letter-spacing: -1px; }
+  .metric span { font-size: 9pt; color: #667085; }
+  .chart { display: flex; align-items: flex-end; gap: 6mm; height: 60mm; margin: 6mm 0; }
+  .chart i { flex: 1; background: #2563eb; border-radius: 2mm 2mm 0 0; display: block; }
+  footer { position: absolute; bottom: 14mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; font-size: 9pt; color: #98a2b3; }
+  .cover { background: #0b1220; color: #fff; }
+  .cover .eyebrow { color: #7dd3fc; }
+  .cover p { color: #b6c5da; }
+  .cover .rule { background: #7dd3fc; }
+</style>
+</head>
+<body>
+  <section class="page cover">
+    <span class="eyebrow">PDFEdits fixture</span>
+    <h1>Quarterly operations report</h1>
+    <p>Four pages of real text, tables and vector shapes. Used to exercise page rendering, text extraction and assembly in the editor.</p>
+    <div class="rule"></div>
+    <p>Prepared locally · No upload · No account</p>
+    <footer><span>Confidential</span><span>Page 1</span></footer>
+  </section>
+
+  <section class="page">
+    <span class="eyebrow">Section 01</span>
+    <h1>What changed this quarter</h1>
+    <p>Revenue grew across every region, with the strongest movement in the mid-market segment. Retention improved after the onboarding rewrite, and support volume fell for the third quarter in a row.</p>
+    <div class="metric">
+      <div><b>+18.4%</b><span>Revenue</span></div>
+      <div><b>92.1%</b><span>Retention</span></div>
+      <div><b>-27%</b><span>Support load</span></div>
+    </div>
+    <h2>Regional split</h2>
+    <table>
+      <thead><tr><th>Region</th><th>Revenue</th><th>Change</th></tr></thead>
+      <tbody>
+        <tr><td>North America</td><td>$4.2M</td><td>+21%</td></tr>
+        <tr><td>Europe</td><td>$3.1M</td><td>+14%</td></tr>
+        <tr><td>Asia Pacific</td><td>$2.4M</td><td>+26%</td></tr>
+        <tr><td>Rest of world</td><td>$0.9M</td><td>+9%</td></tr>
+      </tbody>
+    </table>
+    <footer><span>Quarterly operations report</span><span>Page 2</span></footer>
+  </section>
+
+  <section class="page">
+    <span class="eyebrow">Section 02</span>
+    <h1>Pipeline by month</h1>
+    <p>Monthly bookings, indexed against January. The dip in April is seasonal and recovered fully by June.</p>
+    <div class="chart">
+      <i style="height: 42%"></i><i style="height: 55%"></i><i style="height: 48%"></i>
+      <i style="height: 62%"></i><i style="height: 71%"></i><i style="height: 84%"></i>
+      <i style="height: 78%"></i><i style="height: 92%"></i><i style="height: 100%"></i>
+    </div>
+    <p>Bookings are tracked weekly and reconciled against finance at month end. The chart is pure CSS so the fixture stays small.</p>
+    <footer><span>Quarterly operations report</span><span>Page 3</span></footer>
+  </section>
+
+  <section class="page">
+    <span class="eyebrow">Section 03</span>
+    <h1>Next quarter</h1>
+    <p>Three priorities: finish the migration, tighten the onboarding funnel, and ship the reporting API. Each has an owner and a date; none requires new headcount.</p>
+    <table>
+      <thead><tr><th>Priority</th><th>Owner</th><th>Due</th></tr></thead>
+      <tbody>
+        <tr><td>Migration</td><td>Platform</td><td>Week 4</td></tr>
+        <tr><td>Onboarding funnel</td><td>Growth</td><td>Week 6</td></tr>
+        <tr><td>Reporting API</td><td>Data</td><td>Week 9</td></tr>
+      </tbody>
+    </table>
+    <div class="rule"></div>
+    <p>Prepared for the fixture suite. Any resemblance to a real company is accidental.</p>
+    <footer><span>Quarterly operations report</span><span>Page 4</span></footer>
+  </section>
+</body>
+</html>

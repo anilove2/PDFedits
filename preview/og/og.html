@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../assets/css/fonts.css">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    background:
+      radial-gradient(ellipse 55% 45% at 78% 6%, rgba(37, 99, 235, 0.45), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 8% 92%, rgba(14, 165, 233, 0.25), transparent 70%),
+      #0b1220;
+    color: #f8fafc;
+    padding: 64px 72px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .dots {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,.10) 1px, transparent 0);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000, transparent 78%);
+  }
+  header { display: flex; align-items: center; gap: 14px; position: relative; }
+  .mark { width: 44px; height: 44px; }
+  .brand { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; }
+  .badge {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.18);
+    background: rgba(255,255,255,.06);
+    font-size: 15px; color: #cbd5e1;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 4px rgba(52,211,153,.18); }
+  h1 {
+    position: relative;
+    font-size: 74px; line-height: 0.98; letter-spacing: -0.045em; font-weight: 700;
+    max-width: 960px;
+  }
+  .hl { color: #7dd3fc; position: relative; }
+  .hl svg { position: absolute; left: 0; bottom: -10px; width: 100%; height: 14px; overflow: visible; }
+  p.sub { position: relative; margin-top: 26px; font-size: 26px; color: #b6c5da; }
+  footer { position: relative; display: flex; justify-content: space-between; align-items: center; font-size: 18px; color: #8fa2bb; }
+  .url { font-weight: 600; color: #e2e8f0; letter-spacing: -0.01em; }
+</style>
+</head>
+<body>
+  <div class="dots"></div>
+  <header>
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="9" fill="#1E293B"/>
+      <path d="M11 8h7l4 4v12H11z" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M18 8v4h4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="21.6" cy="21" r="2.1" fill="#38BDF8"/>
+    </svg>
+    <span class="brand">PDFEdits</span>
+    <span class="badge"><span class="dot"></span>Processed on your device</span>
+  </header>
+
+  <main>
+    <h1>PDF work that <span class="hl">never<svg viewBox="0 0 140 12" preserveAspectRatio="none"><path d="M2 8.5C36 3.5 96 2.5 138 6.5" fill="none" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round"/></svg></span> leaves your device.</h1>
+    <p class="sub">Merge, split, crop, arrange and rotate — inside your browser.</p>
+  </main>
+
+  <footer>
+    <span class="url">pdfedits.in</span>
+    <span>No upload · No account · No server copy</span>
+  </footer>
+</body>
+</html>

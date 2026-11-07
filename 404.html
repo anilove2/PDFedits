@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — PDFEdits</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#F8FAFC" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1220" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script src="/assets/js/boot.js"></script>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+    text-align: center;
+  }
+  .card { max-width: 520px; }
+  .code { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: var(--accent); text-transform: uppercase; }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); letter-spacing: -0.04em; margin: 12px 0 14px; }
+  p { color: var(--muted); line-height: 1.6; margin: 0 0 26px; }
+  .actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  a.btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 46px; padding: 0 20px; border-radius: 10px;
+    border: 1px solid transparent; text-decoration: none; font-weight: 600; font-size: 0.92rem;
+  }
+  .primary { background: var(--accent); color: var(--on-accent); }
+  .ghost { border-color: var(--line-strong); color: var(--ink); }
+  .brand { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 26px; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <a class="brand" href="/">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="9" fill="currentColor" opacity=".08"/>
+        <path d="M11 8h7l4 4v12H11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M18 8v4h4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        <circle cx="21.6" cy="21" r="2.1" fill="#2563EB"/>
+      </svg>
+      PDFEdits
+    </a>
+    <p class="code">404</p>
+    <h1>This page doesn't exist.</h1>
+    <p>The link may be out of date. The editor is one click away — and still uploads nothing.</p>
+    <div class="actions">
+      <a class="btn primary" href="/app">Open the editor</a>
+      <a class="btn ghost" href="/">Back to home</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "pdfedits",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local-first PDF toolkit — pdfedits.in",
+  "scripts": {
+    "start": "node scripts/serve.js",
+    "test": "node scripts/test-app.js && node scripts/test-offline.js && node scripts/test-file-mode.js",
+    "deploy:simulate": "node scripts/simulate-deploy.js"
+  },
+  "dependencies": {
+    "@pdf-lib/standard-fonts": "^1.0.0",
+    "@pdf-lib/upng": "^1.0.1",
+    "fflate": "^0.8.3",
+    "pako": "^3.0.3",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "^6.5.438",
+    "tslib": "^2.9.1"
+  }
+}

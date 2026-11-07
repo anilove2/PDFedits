@@ -1,0 +1,14 @@
+{
+  "name": "PDFEdits",
+  "short_name": "PDFEdits",
+  "description": "Merge, split, arrange, rotate and crop PDFs locally. Nothing is uploaded.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0B1220",
+  "theme_color": "#0B1220",
+  "icons": [
+    { "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

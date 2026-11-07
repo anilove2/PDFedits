@@ -1,0 +1,72 @@
+— Page 1 —
+
+S E C T I O N 0 1
+What changed this quarter
+Revenue grew across every region, with the strongest movement in the mid-market segment.
+Retention improved after the onboarding rewrite, and support volume fell for the third quarter in a
+row.
++18.4%
+Revenue
+92.1%
+Retention
+-27%
+Support load
+Regional split
+REGION  REVENUE  CHANGE
+North America  $4.2M  +21%
+Europe  $3.1M  +14%
+Asia Pacific  $2.4M  +26%
+Rest of world  $0.9M  +9%
+Quarterly operations report  Page 2
+
+— Page 2 —
+
+P D F E D I T S F I X T U R E
+Quarterly operations report
+Four pages of real text, tables and vector shapes. Used to exercise page rendering, text extraction
+and assembly in the editor.
+Prepared locally · No upload · No account
+Confidential  Page 1
+
+— Page 3 —
+
+S E C T I O N 0 2
+Pipeline by month
+Monthly bookings, indexed against January. The dip in April is seasonal and recovered fully by
+June.
+Bookings are tracked weekly and reconciled against finance at month end. The chart is pure CSS so
+the fixture stays small.
+Quarterly operations report  Page 3
+
+— Page 4 —
+
+S E C T I O N 0 3
+Next quarter
+Three priorities: finish the migration, tighten the onboarding funnel, and ship the reporting API.
+Each has an owner and a date; none requires new headcount.
+PRIORIT Y  OWNER  DUE
+Migration  Platform  Week 4
+Onboarding funnel  Growth  Week 6
+Reporting API  Data  Week 9
+Prepared for the fixture suite. Any resemblance to a real company is accidental.
+Quarterly operations report  Page 4
+
+— Page 5 —
+
+Annex A
+Method notes
+Figures are rounded to one decimal place. Where a metric changed definition mid-quarter, the earlier period is restated.
+Definitions
+1.  Revenue is recognised when the service period starts.
+2.  Retention counts accounts active in the last 28 days.
+3.  Support load is tickets per 100 accounts.
+
+— Page 6 —
+
+Annex B
+Changelog
+This annex exists so the editor has a second PDF to merge, reorder and split.
+Revision history
+1.  Draft circulated for review.
+2.  Comments folded in; tables re-cut.
+3.  Final, approved for distribution.
